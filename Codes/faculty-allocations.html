@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS - My Allocations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-text {
+            font-weight: bold;
+            color: #1f2937;
+            font-size: 1.125rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: #6b7280;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            background: #f3f4f6;
+        }
+
+        .nav-tab.active {
+            background: #166534;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .add-button {
+            background: #166534;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s;
+        }
+
+        .add-button:hover {
+            background: #14532d;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .allocation-item {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .allocation-info {
+            flex: 1;
+        }
+
+        .allocation-title {
+            color: #1f2937;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .allocation-details {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.125rem;
+        }
+
+        .allocation-meta {
+            color: #166534;
+            font-size: 0.75rem;
+        }
+
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-approved {
+            background: #166534;
+            color: white;
+        }
+
+        .badge-pending {
+            background: #9ca3af;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .sparkle-icon {
+            width: 16px;
+            height: 16px;
+            color: #166534;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .close-button {
+            background: transparent;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            color: #6b7280;
+            transition: background 0.2s;
+        }
+
+        .close-button:hover {
+            background: #f3f4f6;
+        }
+
+        .ai-notice {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ai-notice-text {
+            color: #166534;
+            font-size: 0.875rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        select {
+            width: 100%;
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.625rem 1rem;
+            font-size: 1rem;
+            color: #1f2937;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #166534;
+        }
+
+        .info-box {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-text {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #166534;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #14532d;
+        }
+
+        .btn-primary:disabled {
+            background: #d1d5db;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs {
+                width: 100%;
+                order: 3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <div class="nav-logo-icon">
+                        <svg viewBox="0 0 64 80" width="20" height="25" fill="none" stroke="white" stroke-width="3">
+                            <circle cx="32" cy="12" r="8" />
+                            <circle cx="32" cy="12" r="3" fill="white" />
+                            <path d="M32 20 L32 35" />
+                            <path d="M32 35 C32 35 20 40 20 52 L20 65 C20 68 22 70 25 70 L39 70 C42 70 44 68 44 65 L44 52 C44 40 32 35 32 35" />
+                        </svg>
+                    </div>
+                    <span class="nav-logo-text">CAS</span>
+                </div>
+                <div class="nav-tabs">
+                    <a href="faculty-dashboard.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        </svg>
+                        Dashboard
+                    </a>
+                    <a href="cv-upload.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                        </svg>
+                        Upload CV
+                    </a>
+                    <a href="preferences.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                        </svg>
+                        Preferences
+                    </a>
+                    <a href="faculty-allocations.html" class="nav-tab active">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        </svg>
+                        Allocations
+                    </a>
+                    <a href="change-requests.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        </svg>
+                        Change Requests
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Allocations</h1>
+            <button class="add-button" onclick="openRequestModal()">
+                <span>+</span>
+                Request Allocation
+            </button>
+        </div>
+
+        <!-- My Allocation Requests -->
+        <div class="card">
+            <h3 class="card-title">
+                My Allocation Requests
+                <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                </svg>
+            </h3>
+            <div id="requestsList">
+                <div class="allocation-item">
+                    <div class="allocation-info">
+                        <p class="allocation-title">Machine Learning</p>
+                        <p class="allocation-details">CS301 • Spring 2025</p>
+                        <p class="allocation-meta">AI Match: 91% • Requested: 2024-01-15 14:30</p>
+                    </div>
+                    <span class="badge badge-pending">pending</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Approved Allocations -->
+        <div class="card">
+            <h3 class="card-title">My Approved Allocations</h3>
+            <div id="allocationsList">
+                <div class="allocation-item">
+                    <div class="allocation-info">
+                        <p class="allocation-title">Intro to Programming</p>
+                        <p class="allocation-details">CS101 • Fall 2024</p>
+                        <p class="allocation-meta">AI Match: 95%</p>
+                    </div>
+                    <span class="badge badge-approved">approved</span>
+                </div>
+                <div class="allocation-item">
+                    <div class="allocation-info">
+                        <p class="allocation-title">Data Structures</p>
+                        <p class="allocation-details">CS201 • Fall 2024</p>
+                        <p class="allocation-meta">AI Match: 88%</p>
+                    </div>
+                    <span class="badge badge-approved">approved</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Request Allocation Modal -->
+    <div id="requestModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Request Course Allocation</h2>
+                <button class="close-button" onclick="closeRequestModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="ai-notice">
+                <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                </svg>
+                <p class="ai-notice-text">AI will calculate your compatibility score with the course</p>
+            </div>
+
+            <form id="requestForm">
+                <div class="form-group">
+                    <label for="courseSelect">Select Course</label>
+                    <select id="courseSelect" onchange="updateRequestButton()">
+                        <option value="">-- Select Course --</option>
+                        <option value="CS301">Machine Learning (CS301) - Spring 2025</option>
+                        <option value="CS401">Database Management (CS401) - Spring 2025</option>
+                        <option value="CS102">Computer Networks (CS102) - Fall 2024</option>
+                        <option value="CS501">Advanced AI (CS501) - Spring 2025</option>
+                    </select>
+                </div>
+
+                <div id="courseInfo" class="info-box" style="display: none;">
+                    <p class="info-text">
+                        Your request will be sent to the Head of Department for approval. 
+                        AI will analyze your qualifications and provide a match score.
+                    </p>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="closeRequestModal()">Cancel</button>
+                    <button type="submit" id="submitButton" class="btn btn-primary" disabled>
+                        <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                        </svg>
+                        Submit Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openRequestModal() {
+            document.getElementById('requestModal').classList.add('active');
+        }
+
+        function closeRequestModal() {
+            document.getElementById('requestModal').classList.remove('active');
+            document.getElementById('requestForm').reset();
+            updateRequestButton();
+        }
+
+        function updateRequestButton() {
+            const select = document.getElementById('courseSelect');
+            const button = document.getElementById('submitButton');
+            const info = document.getElementById('courseInfo');
+            
+            if (select.value) {
+                button.disabled = false;
+                info.style.display = 'block';
+            } else {
+                button.disabled = true;
+                info.style.display = 'none';
+            }
+        }
+
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const course = document.getElementById('courseSelect').value;
+            alert(Allocation request submitted for ${course}!);
+            closeRequestModal();
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('requestModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRequestModal();
+            }
+        });
+    </script>
+</body>
+</html>
