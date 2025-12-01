@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty - CAS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-content {
+            max-width: 1536px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #4b5563;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #f3f4f6;
+        }
+
+        .nav-link.active {
+            background: #166534;
+            color: white;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-profile:hover {
+            background: #f3f4f6;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .user-name {
+            color: #1f2937;
+            font-size: 0.875rem;
+        }
+
+        .logout-btn {
+            padding: 0.5rem;
+            color: #6b7280;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .container {
+            max-width: 1536px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .page-header {
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+        }
+
+        .faculty-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .faculty-avatar {
+            width: 40px;
+            height: 40px;
+            background: #166534;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .faculty-info p:first-child {
+            color: #1f2937;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .faculty-info p:nth-child(2) {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .faculty-info p:last-child {
+            color: #166534;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <div class="logo">
+                    <div class="logo-icon">🎓</div>
+                    <span class="logo-text">CAS</span>
+                </div>
+                <div class="nav-links">
+                    <a href="hod-dashboard.html" class="nav-link">📊 Dashboard</a>
+                    <a href="hod-courses.html" class="nav-link">📚 Courses</a>
+                    <a href="#" class="nav-link active">👥 Faculty</a>
+                    <a href="hod-allocations.html" class="nav-link">📋 Allocations</a>
+                    <a href="hod-notifications.html" class="nav-link">🔔 Notifications</a>
+                </div>
+            </div>
+            <div class="user-section">
+                <div class="user-profile">
+                    <div class="user-avatar">👤</div>
+                    <span class="user-name">Prof. Anderson</span>
+                </div>
+                <button class="logout-btn">🚪</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Faculty</h1>
+        </div>
+
+        <div class="card">
+            <div class="faculty-container">
+                <div class="faculty-avatar">👤</div>
+                <div class="faculty-info">
+                    <p>Dr. Smith</p>
+                    <p>smith@univ.edu</p>
+                    <p>Machine Learning • CV ✓</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="faculty-container">
+                <div class="faculty-avatar">👤</div>
+                <div class="faculty-info">
+                    <p>Dr. Johnson</p>
+                    <p>johnson@univ.edu</p>
+                    <p>Database Systems • CV ✓</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="faculty-container">
+                <div class="faculty-avatar">👤</div>
+                <div class="faculty-info">
+                    <p>Dr. Williams</p>
+                    <p>williams@univ.edu</p>
+                    <p>Networks</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

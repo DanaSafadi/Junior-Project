@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS - Faculty Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-text {
+            font-weight: bold;
+            color: #1f2937;
+            font-size: 1.125rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: #6b7280;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            background: #f3f4f6;
+        }
+
+        .nav-tab.active {
+            background: #166534;
+            color: white;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: transparent;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .profile-button:hover {
+            background: #f3f4f6;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .profile-name {
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
+        .logout-button {
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            color: #6b7280;
+            transition: background 0.2s;
+        }
+
+        .logout-button:hover {
+            background: #f3f4f6;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            width: 20px;
+            height: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            color: #1f2937;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #166534;
+            box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.1);
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .sparkle-icon {
+            width: 20px;
+            height: 20px;
+            color: #166534;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card {
+            background: #166534;
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+
+        .stat-label {
+            color: #bbf7d0;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* Item Card */
+        .item-card {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-title {
+            color: #374151;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-subtitle {
+            color: #166534;
+            font-size: 0.75rem;
+        }
+
+        /* Badge */
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-approved {
+            background: #166534;
+            color: white;
+        }
+
+        .badge-pending {
+            background: #9ca3af;
+            color: white;
+        }
+
+        /* Activity Item */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+        }
+
+        .activity-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .activity-dot-green {
+            background: #16a34a;
+        }
+
+        .activity-dot-blue {
+            background: #3b82f6;
+        }
+
+        .activity-text {
+            flex: 1;
+        }
+
+        .activity-title {
+            color: #1f2937;
+            font-size: 0.875rem;
+            margin-bottom: 0.125rem;
+        }
+
+        .activity-time {
+            color: #9ca3af;
+            font-size: 0.75rem;
+        }
+
+        /* Icons */
+        .icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs {
+                width: 100%;
+                order: 3;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <div class="nav-logo-icon">
+                        <svg viewBox="0 0 64 80" width="20" height="25" fill="none" stroke="white" stroke-width="3">
+                            <circle cx="32" cy="12" r="8" />
+                            <circle cx="32" cy="12" r="3" fill="white" />
+                            <path d="M32 20 L32 35" />
+                            <path d="M32 35 C32 35 20 40 20 52 L20 65 C20 68 22 70 25 70 L39 70 C42 70 44 68 44 65 L44 52 C44 40 32 35 32 35" />
+                        </svg>
+                    </div>
+                    <span class="nav-logo-text">CAS</span>
+                </div>
+                <div class="nav-tabs">
+                    <a href="faculty-dashboard.html" class="nav-tab active">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                        Dashboard
+                    </a>
+                    <a href="cv-upload.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Upload CV
+                    </a>
+                    <a href="preferences.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                        </svg>
+                        Preferences
+                    </a>
+                    <a href="faculty-allocations.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        </svg>
+                        Allocations
+                    </a>
+                    <a href="change-requests.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        </svg>
+                        Change Requests
+                    </a>
+                    <a href="notifications.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        Notifications
+                    </a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <button class="profile-button">
+                    <div class="profile-avatar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <span class="profile-name">Dr. Smith</span>
+                </button>
+                <button class="logout-button" onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" class="search-input" placeholder="Search courses, faculty, allocations...">
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">AI Dashboard</h1>
+            <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+            </svg>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <p class="stat-label">My Courses</p>
+                <p class="stat-value">2</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Pending</p>
+                <p class="stat-value">1</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">AI Match</p>
+                <p class="stat-value">94%</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Requests</p>
+                <p class="stat-value">0</p>
+            </div>
+        </div>
+
+        <!-- AI Recommendations Card -->
+        <div class="card">
+            <h3 class="card-title">
+                My AI Recommendations
+                <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                </svg>
+            </h3>
+            <div class="card-content">
+                <div class="item-card">
+                    <div class="item-info">
+                        <p class="item-title">Intro to Programming</p>
+                        <p class="item-subtitle">AI Match: 95%</p>
+                    </div>
+                    <span class="badge badge-approved">approved</span>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <p class="item-title">Machine Learning</p>
+                        <p class="item-subtitle">AI Match: 91%</p>
+                    </div>
+                    <span class="badge badge-pending">pending</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Card -->
+        <div class="card">
+            <h3 class="card-title">Recent Activity</h3>
+            <div class="card-content">
+                <div class="activity-item">
+                    <div class="activity-dot activity-dot-green"></div>
+                    <div class="activity-text">
+                        <p class="activity-title">Course allocation approved</p>
+                        <p class="activity-time">2 hours ago</p>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-dot activity-dot-blue"></div>
+                    <div class="activity-text">
+                        <p class="activity-title">CV analyzed by AI</p>
+                        <p class="activity-time">1 day ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

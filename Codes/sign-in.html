@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-900">CAS</h1>
+            <p class="text-gray-600">Course Allocation System</p>
+        </div>
+        <!-- Role Selection -->
+        <div class="space-y-4 mb-6">
+            <button class="w-full bg-green-800 hover:bg-green-900 text-white py-3 px-4 rounded-xl flex items-center justify-between">
+                Faculty / Instructor <span>👤</span>
+            </button>
+            <button class="w-full bg-green-800 hover:bg-green-900 text-white py-3 px-4 rounded-xl flex items-center justify-between">
+                Head of Department <span>👥</span>
+            </button>
+        </div>
+        <p class="text-center text-sm text-gray-500">AI-powered matching</p>
+        <!-- Login Form (shown after role selection) -->
+        <div class="mt-6">
+            <h2 class="text-lg font-semibold mb-4">Login as Faculty / Instructor</h2>
+            <input type="text" placeholder="Username" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 mb-4" />
+            <input type="password" placeholder="Password" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 mb-4" />
+            <a href="#" class="text-green-800 text-sm block mb-4">Forgot Password?</a>
+            <p class="text-red-500 text-sm mb-4">Invalid credentials (placeholder)</p>
+            <p class="text-green-500 text-sm mb-4">Message (placeholder)</p>
+            <p class="text-sm text-gray-600 mb-4">Demo: User: faculty Pass: faculty123</p>
+            <button class="w-full bg-green-800 hover:bg-green-900 text-white py-3 rounded-xl mb-4">Login</button>
+            <a href="#" class="text-green-800 font-medium">Sign Up</a>
+        </div>
+        <!-- Signup Form (toggle via JS or link) -->
+        <div class="mt-6 hidden">
+            <h2 class="text-lg font-semibold mb-4">Sign Up</h2>
+            <input type="text" placeholder="Full Name" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2.5 mb-4" />
+            <input type="email" placeholder="Email" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2.5 mb-4" />
+            <input type="text" placeholder="Username" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2.5 mb-4" />
+            <input type="password" placeholder="Password" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2.5 mb-4" />
+            <input type="password" placeholder="Confirm Password" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2.5 mb-4" />
+            <button class="w-full bg-green-800 hover:bg-green-900 text-white py-3 rounded-xl">Sign Up</button>
+        </div>
+        <!-- Forgot Password (toggle via JS or link) -->
+        <div class="mt-6 hidden">
+            <p class="mb-4">Enter email to reset password.</p>
+            <input type="email" placeholder="Email" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-2.5 mb-4" />
+            <button class="w-full bg-green-800 hover:bg-green-900 text-white py-3 rounded-xl">Send</button>
+        </div>
+    </div>
+</body>
+</html>
