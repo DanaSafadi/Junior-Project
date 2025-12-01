@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS - Preferences</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-text {
+            font-weight: bold;
+            color: #1f2937;
+            font-size: 1.125rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: #6b7280;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            background: #f3f4f6;
+        }
+
+        .nav-tab.active {
+            background: #166534;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .sparkle-icon {
+            width: 20px;
+            height: 20px;
+            color: #166534;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .course-item {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-item:hover {
+            border-color: #166534;
+        }
+
+        .course-item.selected {
+            border-color: #166534;
+            background: #f0fdf4;
+        }
+
+        .course-info {
+            flex: 1;
+        }
+
+        .course-title {
+            color: #1f2937;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-details {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .course-item.selected .checkbox {
+            background: #166534;
+            border-color: #166534;
+        }
+
+        .checkmark {
+            width: 16px;
+            height: 16px;
+            color: white;
+            display: none;
+        }
+
+        .course-item.selected .checkmark {
+            display: block;
+        }
+
+        .save-button {
+            width: 100%;
+            background: #166534;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background 0.2s;
+            margin-top: 1rem;
+        }
+
+        .save-button:hover {
+            background: #14532d;
+        }
+
+        .save-button.hidden {
+            display: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 1rem;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .empty-state-text {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs {
+                width: 100%;
+                order: 3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <div class="nav-logo-icon">
+                        <svg viewBox="0 0 64 80" width="20" height="25" fill="none" stroke="white" stroke-width="3">
+                            <circle cx="32" cy="12" r="8" />
+                            <circle cx="32" cy="12" r="3" fill="white" />
+                            <path d="M32 20 L32 35" />
+                            <path d="M32 35 C32 35 20 40 20 52 L20 65 C20 68 22 70 25 70 L39 70 C42 70 44 68 44 65 L44 52 C44 40 32 35 32 35" />
+                        </svg>
+                    </div>
+                    <span class="nav-logo-text">CAS</span>
+                </div>
+                <div class="nav-tabs">
+                    <a href="faculty-dashboard.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        </svg>
+                        Dashboard
+                    </a>
+                    <a href="cv-upload.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Upload CV
+                    </a>
+                    <a href="preferences.html" class="nav-tab active">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                        </svg>
+                        Preferences
+                    </a>
+                    <a href="faculty-allocations.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        </svg>
+                        Allocations
+                    </a>
+                    <a href="change-requests.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        </svg>
+                        Change Requests
+                    </a>
+                    <a href="notifications.html" class="nav-tab">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        </svg>
+                        Notifications
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Preferences</h1>
+            <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+            </svg>
+        </div>
+
+        <!-- Preferences Card -->
+        <div class="card">
+            <h3 class="card-title">
+                Select Courses
+                <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                </svg>
+            </h3>
+            <p class="card-description">Choose courses. AI matches with your CV.</p>
+
+            <!-- Course List -->
+            <div id="courseList">
+                <div class="course-item" onclick="toggleCourse(this, 'CS101')">
+                    <div class="course-info">
+                        <p class="course-title">Intro to Programming</p>
+                        <p class="course-details">CS101 • 3 Credits • Fall 2024</p>
+                    </div>
+                    <div class="checkbox">
+                        <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="course-item" onclick="toggleCourse(this, 'CS201')">
+                    <div class="course-info">
+                        <p class="course-title">Data Structures</p>
+                        <p class="course-details">CS201 • 4 Credits • Fall 2024</p>
+                    </div>
+                    <div class="checkbox">
+                        <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="course-item" onclick="toggleCourse(this, 'CS301')">
+                    <div class="course-info">
+                        <p class="course-title">Machine Learning</p>
+                        <p class="course-details">CS301 • 3 Credits • Spring 2025</p>
+                    </div>
+                    <div class="checkbox">
+                        <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="course-item" onclick="toggleCourse(this, 'CS401')">
+                    <div class="course-info">
+                        <p class="course-title">Database Management</p>
+                        <p class="course-details">CS401 • 3 Credits • Spring 2025</p>
+                    </div>
+                    <div class="checkbox">
+                        <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="course-item" onclick="toggleCourse(this, 'CS102')">
+                    <div class="course-info">
+                        <p class="course-title">Computer Networks</p>
+                        <p class="course-details">CS102 • 3 Credits • Fall 2024</p>
+                    </div>
+                    <div class="checkbox">
+                        <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <button id="saveButton" class="save-button hidden" onclick="savePreferences()">
+                <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                </svg>
+                <span id="saveButtonText">Save Preferences</span>
+            </button>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state">
+                <p class="empty-state-text">Select at least one course to continue</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let selectedCourses = [];
+
+        function toggleCourse(element, courseId) {
+            element.classList.toggle('selected');
+            
+            if (element.classList.contains('selected')) {
+                selectedCourses.push(courseId);
+            } else {
+                selectedCourses = selectedCourses.filter(id => id !== courseId);
+            }
+
+            updateUI();
+        }
+
+        function updateUI() {
+            const saveButton = document.getElementById('saveButton');
+            const saveButtonText = document.getElementById('saveButtonText');
+            const emptyState = document.getElementById('emptyState');
+
+            if (selectedCourses.length > 0) {
+                saveButton.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                saveButtonText.textContent = Save Preferences (${selectedCourses.length} selected);
+            } else {
+                saveButton.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            }
+        }
+
+        function savePreferences() {
+            alert(Preferences saved! Selected courses: ${selectedCourses.join(', ')});
+            // Here you would typically send the data to a server
+        }
+
+        // Initialize
+        updateUI();
+    </script>
+</body>
+</html>
