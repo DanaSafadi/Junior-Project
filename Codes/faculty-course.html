@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - CAS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-content {
+            max-width: 1536px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #4b5563;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #f3f4f6;
+        }
+
+        .nav-link.active {
+            background: #166534;
+            color: white;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-profile:hover {
+            background: #f3f4f6;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .user-name {
+            color: #1f2937;
+            font-size: 0.875rem;
+        }
+
+        .logout-btn {
+            padding: 0.5rem;
+            color: #6b7280;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .container {
+            max-width: 1536px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .page-header {
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        .course-item {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .course-item:hover {
+            border-color: #166534;
+            background: #f9fafb;
+        }
+
+        .course-item.selected {
+            border-color: #166534;
+            background: #dcfce7;
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-info p:first-child {
+            color: #1f2937;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-info p:last-child {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .course-item.selected .checkbox {
+            background: #166534;
+            border-color: #166534;
+        }
+
+        .btn-save {
+            width: 100%;
+            background: #166534;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 12px;
+            border: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-save:hover {
+            background: #14532d;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <div class="logo">
+                    <div class="logo-icon">🎓</div>
+                    <span class="logo-text">CAS</span>
+                </div>
+                <div class="nav-links">
+                    <a href="faculty-dashboard.html" class="nav-link">📊 Dashboard</a>
+                    <a href="#" class="nav-link active">📚 Courses</a>
+                    <a href="faculty-requests.html" class="nav-link">📋 Change Requests</a>
+                    <a href="faculty-notifications.html" class="nav-link">🔔 Notifications</a>
+                </div>
+            </div>
+            <div class="user-section">
+                <div class="user-profile">
+                    <div class="user-avatar">👤</div>
+                    <span class="user-name">Dr. Smith</span>
+                </div>
+                <button class="logout-btn">🚪</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">
+                Preferences
+                <span style="color: #166534;">✨</span>
+            </h1>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Select Courses</h3>
+            <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1rem;">Choose courses. AI matches with your CV.</p>
+
+            <div class="course-item" onclick="toggleCourse(this)">
+                <div class="course-header">
+                    <div class="course-info">
+                        <p>Intro to Programming</p>
+                        <p>CS101 • 3 Credits • Fall 2024</p>
+                    </div>
+                    <div class="checkbox"></div>
+                </div>
+            </div>
+
+            <div class="course-item" onclick="toggleCourse(this)">
+                <div class="course-header">
+                    <div class="course-info">
+                        <p>Data Structures</p>
+                        <p>CS201 • 4 Credits • Fall 2024</p>
+                    </div>
+                    <div class="checkbox"></div>
+                </div>
+            </div>
+
+            <div class="course-item" onclick="toggleCourse(this)">
+                <div class="course-header">
+                    <div class="course-info">
+                        <p>Machine Learning</p>
+                        <p>CS301 • 3 Credits • Spring 2025</p>
+                    </div>
+                    <div class="checkbox"></div>
+                </div>
+            </div>
+
+            <div class="course-item" onclick="toggleCourse(this)">
+                <div class="course-header">
+                    <div class="course-info">
+                        <p>Database Management</p>
+                        <p>CS401 • 3 Credits • Spring 2025</p>
+                    </div>
+                    <div class="checkbox"></div>
+                </div>
+            </div>
+
+            <div class="course-item" onclick="toggleCourse(this)">
+                <div class="course-header">
+                    <div class="course-info">
+                        <p>Computer Networks</p>
+                        <p>CS102 • 3 Credits • Fall 2024</p>
+                    </div>
+                    <div class="checkbox"></div>
+                </div>
+            </div>
+
+            <button class="btn-save" id="saveBtn" style="display: none;">
+                <span style="font-size: 1rem;">✨</span>
+                Save & Match
+            </button>
+        </div>
+    </main>
+
+    <script>
+        function toggleCourse(element) {
+            element.classList.toggle('selected');
+            const checkbox = element.querySelector('.checkbox');
+            
+            if (element.classList.contains('selected')) {
+                checkbox.innerHTML = '<span style="color: white; font-size: 16px;">✓</span>';
+            } else {
+                checkbox.innerHTML = '';
+            }
+            
+            // Show save button if any course is selected
+            const selected = document.querySelectorAll('.course-item.selected');
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.style.display = selected.length > 0 ? 'flex' : 'none';
+        }
+    </script>
+</body>
+</html>

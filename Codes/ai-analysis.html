@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload CV - CAS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-content {
+            max-width: 1536px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #4b5563;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #f3f4f6;
+        }
+
+        .nav-link.active {
+            background: #166534;
+            color: white;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-profile:hover {
+            background: #f3f4f6;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: #166534;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .user-name {
+            color: #1f2937;
+            font-size: 0.875rem;
+        }
+
+        .logout-btn {
+            padding: 0.5rem;
+            color: #6b7280;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .container {
+            max-width: 1536px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .page-header {
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            background: #f9fafb;
+        }
+
+        .upload-icon {
+            width: 64px;
+            height: 64px;
+            color: #9ca3af;
+            margin: 0 auto 1rem;
+            font-size: 64px;
+        }
+
+        .upload-text {
+            color: #4b5563;
+            margin-bottom: 0.75rem;
+        }
+
+        .upload-btn {
+            background: #166534;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-btn:hover {
+            background: #14532d;
+        }
+
+        .upload-note {
+            color: #9ca3af;
+            font-size: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            background: #166534;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            margin: 0 auto 1rem;
+        }
+
+        .success-title {
+            color: #166534;
+            font-weight: 500;
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .success-subtitle {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .match-score {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #dcfce7;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .match-score span:first-child {
+            color: #1f2937;
+        }
+
+        .match-score span:last-child {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #166534;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-box {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 0.75rem;
+        }
+
+        .info-box p:first-child {
+            color: #6b7280;
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-box p:last-child {
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .course-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #dcfce7;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .course-info p:first-child {
+            color: #1f2937;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-info p:last-child {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .course-badge {
+            background: #166534;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-left">
+                <div class="logo">
+                    <div class="logo-icon">🎓</div>
+                    <span class="logo-text">CAS</span>
+                </div>
+                <div class="nav-links">
+                    <a href="faculty-dashboard.html" class="nav-link">📊 Dashboard</a>
+                    <a href="#" class="nav-link active">📤 Upload CV</a>
+                    <a href="faculty-courses-page.html" class="nav-link">✨ Preferences</a>
+                    <a href="faculty-requests.html" class="nav-link">📋 Change Requests</a>
+                    <a href="faculty-notifications.html" class="nav-link">🔔 Notifications</a>
+                </div>
+            </div>
+            <div class="user-section">
+                <div class="user-profile">
+                    <div class="user-avatar">👤</div>
+                    <span class="user-name">Dr. Smith</span>
+                </div>
+                <button class="logout-btn">🚪</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">
+                Upload CV
+                <span style="color: #166534;">✨</span>
+            </h1>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">
+                AI-Powered CV Analysis
+                <span style="color: #166534;">✨</span>
+            </h3>
+            <p class="card-description">Upload your CV and our AI will automatically analyze your qualifications, extract skills, and recommend suitable courses.</p>
+            
+            <div class="upload-area">
+                <div class="upload-icon">📤</div>
+                <p class="upload-text">Drop your CV here for AI analysis</p>
+                <button class="upload-btn">Upload CV</button>
+                <p class="upload-note">Supported: PDF, DOC, DOCX (Max 10MB)</p>
+            </div>
+        </div>
+
+        <!-- AI Analysis Results (shown after upload) -->
+        <div class="card">
+            <h3 class="card-title">
+                AI Analysis Results
+                <span style="color: #166534;">✨</span>
+            </h3>
+            
+            <div class="match-score">
+                <span>Overall Match Score</span>
+                <span>94%</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <p>Experience</p>
+                    <p>8 years</p>
+                </div>
+                <div class="info-box">
+                    <p>Education</p>
+                    <p>Ph.D. Computer Science</p>
+                </div>
+                <div class="info-box">
+                    <p>Publications</p>
+                    <p>12 papers</p>
+                </div>
+                <div class="info-box">
+                    <p>Status</p>
+                    <p style="color: #166534;">Verified ✓</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">AI-Extracted Skills</h3>
+            <div class="skills-container">
+                <span class="skill-tag"><span style="font-size: 0.75rem;">✨</span> Machine Learning</span>
+                <span class="skill-tag"><span style="font-size: 0.75rem;">✨</span> Python</span>
+                <span class="skill-tag"><span style="font-size: 0.75rem;">✨</span> Data Science</span>
+                <span class="skill-tag"><span style="font-size: 0.75rem;">✨</span> Deep Learning</span>
+                <span class="skill-tag"><span style="font-size: 0.75rem;">✨</span> Statistics</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">
+                AI Recommended Courses
+                <span style="color: #166534;">✨</span>
+            </h3>
+            <p class="card-description">Based on your CV analysis, AI recommends these courses:</p>
+            
+            <div class="course-item">
+                <div class="course-info">
+                    <p>Machine Learning</p>
+                    <p>CS301</p>
+                </div>
+                <span class="course-badge">Recommended</span>
+            </div>
+
+            <div class="course-item">
+                <div class="course-info">
+                    <p>Database Management</p>
+                    <p>CS401</p>
+                </div>
+                <span class="course-badge">Recommended</span>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
