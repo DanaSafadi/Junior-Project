@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: #166534;
+            border-radius: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .logo svg {
+            width: 44px;
+            height: 55px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .role-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .role-button {
+            width: 100%;
+            background: #166534;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .role-button:hover {
+            background: #14532d;
+        }
+
+        .role-button-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .role-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .arrow-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .ai-badge {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .ai-badge-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .sparkle-icon {
+            width: 16px;
+            height: 16px;
+            color: #166534;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.875rem;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.625rem 1rem;
+            font-size: 1rem;
+            color: #1f2937;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #166534;
+            background: white;
+        }
+
+        .forgot-link {
+            color: #166534;
+            font-size: 0.875rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        .success-message {
+            color: #166534;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        .demo-credentials {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .demo-credentials p {
+            margin: 0.25rem 0;
+            color: #374151;
+        }
+
+        .demo-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .demo-credentials code {
+            font-family: 'Courier New', monospace;
+            background: #e5e7eb;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #166534;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #14532d;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .signup-link {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 1rem;
+        }
+
+        .signup-link a {
+            color: #166534;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box fade-in">
+            <!-- Logo and Header -->
+            <div class="logo-container">
+                <div class="logo">
+                    <svg viewBox="0 0 64 80" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="32" cy="12" r="8" />
+                        <circle cx="32" cy="12" r="3" fill="white" />
+                        <path d="M32 20 L32 35" />
+                        <path d="M32 35 C32 35 20 40 20 52 L20 65 C20 68 22 70 25 70 L39 70 C42 70 44 68 44 65 L44 52 C44 40 32 35 32 35" />
+                        <path d="M26 52 L26 58" />
+                        <path d="M32 50 L32 58" />
+                        <path d="M38 52 L38 58" />
+                    </svg>
+                </div>
+                <h1>CAS</h1>
+                <p class="subtitle" id="pageSubtitle">Course Allocation System</p>
+            </div>
+
+            <!-- Role Selection Screen -->
+            <div id="roleSelection" class="role-selection">
+                <button class="role-button" onclick="selectRole('faculty')">
+                    <span class="role-button-content">
+                        <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Faculty / Instructor
+                    </span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+                <button class="role-button" onclick="selectRole('hod')">
+                    <span class="role-button-content">
+                        <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Head of Department
+                    </span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+                <div class="ai-badge">
+                    <div class="ai-badge-content">
+                        <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                        </svg>
+                        AI-powered matching
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="login-form hidden">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Password">
+                </div>
+                <a class="forgot-link" onclick="showForgotPassword()">Forgot Password?</a>
+                <div id="errorMessage" class="error-message hidden"></div>
+                <div id="successMessage" class="success-message hidden"></div>
+                
+                <div class="demo-credentials">
+                    <p class="demo-label">Demo Credentials:</p>
+                    <p>User: <code id="demoUser">faculty</code></p>
+                    <p>Pass: <code id="demoPass">faculty123</code></p>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="backToRoles()">Back</button>
+                    <button class="btn btn-primary" onclick="login()">Login</button>
+                </div>
+                <div class="signup-link">
+                    No account? <a onclick="showSignup()">Sign Up</a>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signupForm" class="login-form hidden">
+                <div class="input-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" placeholder="Full Name">
+                </div>
+                <div class="input-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Email">
+                </div>
+                <div class="input-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" placeholder="Username">
+                </div>
+                <div class="input-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Password">
+                </div>
+                <div class="input-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm Password">
+                </div>
+                <div id="signupError" class="error-message hidden"></div>
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="backToLogin()">Back</button>
+                    <button class="btn btn-primary" onclick="signup()">Sign Up</button>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgotForm" class="login-form hidden">
+                <p style="text-align: center; color: #6b7280; font-size: 0.875rem; margin-bottom: 1rem;">
+                    Enter your email to reset password.
+                </p>
+                <div class="input-group">
+                    <label for="forgotEmail">Email</label>
+                    <input type="email" id="forgotEmail" placeholder="Email">
+                </div>
+                <div id="forgotError" class="error-message hidden"></div>
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="backToLogin()">Back</button>
+                    <button class="btn btn-primary" onclick="sendResetLink()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedRole = null;
+
+        const credentials = {
+            faculty: { username: 'faculty', password: 'faculty123', label: 'Faculty / Instructor' },
+            hod: { username: 'hod', password: 'hod123', label: 'Head of Department' }
+        };
+
+        function selectRole(role) {
+            selectedRole = role;
+            document.getElementById('roleSelection').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('pageSubtitle').textContent = 'Login as ' + credentials[role].label;
+            document.getElementById('demoUser').textContent = credentials[role].username;
+            document.getElementById('demoPass').textContent = credentials[role].password;
+        }
+
+        function backToRoles() {
+            selectedRole = null;
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('forgotForm').classList.add('hidden');
+            document.getElementById('roleSelection').classList.remove('hidden');
+            document.getElementById('pageSubtitle').textContent = 'Course Allocation System';
+            clearMessages();
+        }
+
+        function showSignup() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+            clearMessages();
+        }
+
+        function showForgotPassword() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('forgotForm').classList.remove('hidden');
+            clearMessages();
+        }
+
+        function backToLogin() {
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('forgotForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            clearMessages();
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const cred = credentials[selectedRole];
+
+            if (username === cred.username && password === cred.password) {
+                showSuccess('Login successful! Redirecting...');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html?role=' + selectedRole;
+                }, 1000);
+            } else {
+                showError('Invalid credentials');
+            }
+        }
+
+        function signup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const username = document.getElementById('signupUsername').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            if (!name || !email || !username || !password) {
+                document.getElementById('signupError').textContent = 'Please fill all fields';
+                document.getElementById('signupError').classList.remove('hidden');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById('signupError').textContent = 'Passwords do not match';
+                document.getElementById('signupError').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('signupError').classList.add('hidden');
+            showSuccess('Account created! Please login.');
+            setTimeout(() => backToLogin(), 1500);
+        }
+
+        function sendResetLink() {
+            const email = document.getElementById('forgotEmail').value;
+            if (!email) {
+                document.getElementById('forgotError').textContent = 'Please enter your email';
+                document.getElementById('forgotError').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('forgotError').classList.add('hidden');
+            showSuccess('Reset link sent to your email!');
+            setTimeout(() => backToLogin(), 1500);
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+            setTimeout(() => errorEl.classList.add('hidden'), 3000);
+        }
+
+        function showSuccess(message) {
+            const successEl = document.getElementById('successMessage');
+            successEl.textContent = message;
+            successEl.classList.remove('hidden');
+            setTimeout(() => successEl.classList.add('hidden'), 3000);
+        }
+
+        function clearMessages() {
+            document.getElementById('errorMessage')?.classList.add('hidden');
+            document.getElementById('successMessage')?.classList.add('hidden');
+            document.getElementById('signupError')?.classList.add('hidden');
+            document.getElementById('forgotError')?.classList.add('hidden');
+        }
+
+        // Handle Enter key
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                if (!document.getElementById('loginForm').classList.contains('hidden')) {
+                    login();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
